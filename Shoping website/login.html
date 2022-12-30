@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://kit.fontawesome.com/f9d1bb2373.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./login-singup.css"
+    <title>Login</title>
+</head>
+<body>
+    <nav class="navbar">   
+        <ul class="nav-item1">
+        <h1><img src="./logo-removebg-preview.png" alt="" height="50px"></h1>
+            <li><a href="./WomanProduct.html">Woman</a></li>
+            <li><a href="./man.html">Man</a></li>
+            <li><a href="">Mobile</a></li>
+            <li><a href="">Baby</a></li>
+        </ul>
+        <ul class="nav-item2">
+            <h1><a href="./Singup.html" <i class="fa-solid fa-user-plus fa-1x"></i></a></h1>
+            <h1><a href="./login.html" <i class="fa-solid fa-right-to-bracket fa-1x"></i></a></h1>
+            <h1><a href="./Addtocart.html" <i class="fa-solid fa-cart-shopping fa-1x"></i></a></h1>
+        </ul>
+    </nav>
+    <section class="Signup">
+        <h1 class="Sig">Login</h1>
+        <form action="" id="login">
+         <input type="email" id="phone" placeholder="Enter Email" class="login" required>
+         <br><br>
+         <input type="password" id="password" placeholder="Enter Password" class="" required>
+         <br><br>
+         <p id="alert"></p>
+         <input type="submit" value="Submite" class="button" >
+         <br>
+         <a class="p" href="./Singup.html">New User?</a>
+        </form>
+     </section>
+</body>
+</html>
+
+<script>
+    document.querySelector("form").addEventListener("submit",LoginFunction)
+     var UserLogin=JSON.parse(localStorage.getItem("UserCred")) || []
+    function LoginFunction(){
+        event.preventDefault()
+        
+            var EmailCred=document.querySelector("#phone").value
+            var passwordCred= document.querySelector("#password").value
+             
+            for(var i=0;i<UserLogin.length;i++){
+                if(UserLogin[i].Email==EmailCred && UserLogin[i].Password==passwordCred)
+                {
+            
+                    alert("Login Success");
+                    window.location.href="man.html";
+                    break;
+                }
+                else{
+                //    var d= document.querySelector("#alert").value
+                //    d.innerText="Login Faild"
+                    alert("Incorrect Phone Number/Password")
+                }
+            }
+    }
+</script>

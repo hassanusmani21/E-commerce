@@ -1,0 +1,100 @@
+<!-- Note : This question is continuation of previous E commerce assignment
+
+Create a payment form consisting of the card number, CVV, expiry date, name
+Make sure to give proper input types
+Validate the form, even a single input field should throw an alert as ‘error’
+For validation, Hard code the data like card number, CVV, etc. no need to hard code ‘Name’, it can be anything
+If all the data is correct, send users to OTP.html Here, accept an OTP from user, if OTP is ‘1234’, alert(‘payment successful’) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+     *{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    input::-webkit-outer-spin-button,
+         input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        form{
+              display:inline-block;
+              /* flex-direction: column; */
+            /* border:2px solid black; */
+            text-align: center;
+            padding:2rem 4rem;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+        }
+        body{
+            text-align: center;
+        }
+   p{
+      display: flex;
+   }
+   input{
+    display: flex;
+   }
+
+   #cvv{
+    margin-bottom: 20px;
+   }
+   .btn{
+    margin-left: 50px;
+   }
+  
+</style>
+<body>
+         <!-- <p id="price"></p> -->
+    <form action="" id="buynow">
+        <p id="price"></p>
+        <h2>Payment Details</h2>
+        <p>Credit/Debit/ATM Card</p> 
+        <div class="cardN">
+            <p>Card Number</p>
+            <input type="text" class="cardNumber" id="cardNumber" maxlength="16" minlength="0">
+        </div>
+        <div class="buynow1">
+            <p>Expiry data</p>
+            <input type="month" name="" id="expiry">
+               <p>CVV</p>
+               <input type="text" name="" id="cvv" maxlength="3" minlength="0">
+               <input type="submit" value="Send OTP" class="btn">
+        </div>
+     
+    </form>
+</body>
+</html>
+
+<script>
+    var AddToCart=JSON.parse(localStorage.getItem("Cart"))||[]
+
+    var Total=AddToCart.reduce(function(sum,ele,a,i){
+        return sum+Number(ele.price)
+    },0)
+    var paymentprice=document.querySelector("#price").innerText=`Final Price - (${Total})`
+
+   var a= document.querySelector("#buynow").addEventListener("submit",payMyfunction)
+
+    function payMyfunction(){
+        event.preventDefault()
+        
+            let CardNumber=document.querySelector("#cardNumber").value
+            let Expiry=document.querySelector("#expiry").value
+            let cvv=document.querySelector("#cvv").value
+    
+       if(CardNumber=="1234567891234123" && cvv=="123"){
+        alert("Enter OTP")
+        window.location.href="OTP.html"
+       }else{
+        alert("Hint-Card No-12345678912341234 & CVV-123")
+       }
+    }
+</script>
