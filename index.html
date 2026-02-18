@@ -1,0 +1,171 @@
+<!-- Create a Navbar which consists of login,signup,men and women products Create a simple sign-up page, refer to the amazon create account page.
+
+The input fields should be email, phone number, and password only.
+
+Add appropriate HTML input types.
+
+Store the signup data of the user in local storage when they click on ‘Signup’
+
+Once they are successfully signed up, give an option of login.
+
+If user filled in wrong credentials, an alert should be shown . Let them enter email and password, match that with local storage data you stored while signing up. If data matches, show an alert of login successful. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./login-singup.css">
+    <script src="https://kit.fontawesome.com/f9d1bb2373.js" crossorigin="anonymous"></script>
+    <title>E-commerce</title>
+</head>
+<body>
+    <nav class="navbar">   
+        <ul class="nav-item1">
+        <h1><img src="./logo-removebg-preview.png" alt="" height="50px"></h1>
+            <li><a href="">Woman</a></li>
+            <li><a href="./index.html">Man</a></li>
+            <li><a href="./index.html">Mobile</a></li>
+            <li><a href="./index.html">Baby</a></li>
+        </ul>
+        <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <ul class="nav-item2">
+            <h1><a href="./index.html"><i class="fa-solid fa-user-plus fa-1x"></i></a></h1>
+            <h1><a href="./login.html"><i class="fa-solid fa-right-to-bracket fa-1x"></i></a></h1>
+            <!-- <h1><a href="./index.html" <i class="fa-solid fa-cart-shopping fa-1x"></i></a></h1> -->
+        </ul>
+    </nav>
+    <div class="sidebar-overlay"></div>
+    <aside class="mobile-sidebar" aria-hidden="true">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="sidebar-close" type="button" aria-label="Close sidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="sidebar-user-block">
+            <div id="sidebarUserInitial" class="sidebar-avatar">G</div>
+            <div>
+                <p class="sidebar-user-title">Account</p>
+                <p id="sidebarUserName" class="sidebar-user-name">Account</p>
+            </div>
+        </div>
+        <a class="sidebar-link" href="./index.html">Woman</a>
+        <a class="sidebar-link" href="./index.html">Man</a>
+        <a class="sidebar-link" href="#">Mobile</a>
+        <a class="sidebar-link" href="#">Baby</a>
+        <div class="sidebar-actions">
+            <a class="sidebar-action" href="./index.html" aria-label="Signup"><i class="fa-solid fa-user-plus"></i></a>
+            <a class="sidebar-action" href="./login.html" aria-label="Login"><i class="fa-solid fa-right-to-bracket"></i></a>
+        </div>
+        <a class="sidebar-logout" href="./login.html">Logout</a>
+    </aside>
+
+        <section class="Signup">
+           <form action="" id="signup">
+            <h1  class="Sig">Signup</h1>
+            <input type="text" id="name" placeholder="Enter Name" required >
+            <br>
+            <br>
+            <input type="email" id="email" placeholder="Enter Email" required >
+            <br>
+            <br>
+            <input type="tel" id="phone" placeholder="Enter phone" required>
+            <br><br>
+            <input type="password" id="password" placeholder="Enter Password" required>
+            <br><br>
+            <p id="signup-alert" class="form-alert"></p>
+            <input type="submit" value="Submit" class="button">
+           </form>
+           <p>Already have an account?<a href="./login.html" class="a">Login</a></p>
+        </section>
+</body>
+</html>
+
+<script>
+    var nav = document.querySelector(".navbar");
+    var navToggle = document.querySelector(".nav-toggle");
+    var sidebar = document.querySelector(".mobile-sidebar");
+    var sidebarOverlay = document.querySelector(".sidebar-overlay");
+    var sidebarClose = document.querySelector(".sidebar-close");
+    var currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+    var sidebarUserInitial = document.querySelector("#sidebarUserInitial");
+    var sidebarUserName = document.querySelector("#sidebarUserName");
+    if (currentUser) {
+        if (sidebarUserInitial) sidebarUserInitial.textContent = (currentUser.Name || "G").trim().charAt(0).toUpperCase();
+        if (sidebarUserName) sidebarUserName.textContent = "Account";
+    }
+    function closeSidebar() {
+        if (!sidebar || !sidebarOverlay || !navToggle) return;
+        document.body.classList.remove("sidebar-open");
+        sidebar.classList.remove("open");
+        sidebarOverlay.classList.remove("show");
+        sidebar.setAttribute("aria-hidden", "true");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    }
+    if (nav && navToggle) {
+        navToggle.addEventListener("click", function () {
+            var isOpen = sidebar.classList.toggle("open");
+            document.body.classList.toggle("sidebar-open", isOpen);
+            sidebarOverlay.classList.toggle("show", isOpen);
+            sidebar.setAttribute("aria-hidden", isOpen ? "false" : "true");
+            navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            navToggle.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+        });
+    }
+    if (sidebarClose) sidebarClose.addEventListener("click", closeSidebar);
+    if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
+    if (sidebar) {
+        sidebar.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeSidebar);
+        });
+    }
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 992) closeSidebar();
+    });
+
+    document.querySelector("#signup").addEventListener("submit",signupFunction)
+        
+    
+     var SignupData=JSON.parse(localStorage.getItem("UserCred"))||JSON.parse(localStorage.getItem("userCred"))||[]
+     
+     function signupFunction(event){
+        event.preventDefault()
+
+       var signupAlert = document.querySelector("#signup-alert")
+       var email = document.querySelector("#email").value.trim().toLowerCase()
+       var phone = document.querySelector("#phone").value.trim()
+       var password = document.querySelector("#password").value.trim()
+       var name = document.querySelector("#name").value.trim()
+       var existingUser = SignupData.find(function (user) {
+        return ((user.Email || "").trim().toLowerCase() === email)
+       })
+
+       if (existingUser) {
+        signupAlert.textContent = "This email is already registered.";
+        signupAlert.className = "form-alert error";
+        return;
+       }
+
+
+       var userObj={
+        Name:name,
+        Email:email,
+        Phone:phone,
+        Password:password,
+       }
+    SignupData.push(userObj)
+    localStorage.setItem("UserCred",JSON.stringify(SignupData))
+    signupAlert.textContent = "Signup successful. Redirecting to login...";
+    signupAlert.className = "form-alert success";
+    setTimeout(function () {
+        window.location.href = "login.html"
+    }, 400);
+
+ }
+</script>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./addTocart.css">
+    <link rel="stylesheet" href="./login-singup.css">
+    <script src="https://kit.fontawesome.com/f9d1bb2373.js" crossorigin="anonymous"></script>
+    <title>AddTocart</title>
+</head>
+<body>
+    <nav class="navbar">   
+        <ul class="nav-item1">
+            <h1><img src="./logo-removebg-preview.png" alt="" height="50px"></h1>
+            <li><a href="./WomanProduct.html">Woman</a></li>
+            <li><a href="./Men.html">Man</a></li>
+            <li><a href="">Mobile</a></li>
+            <li><a href="">Baby</a></li>
+        </ul>
+        <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <ul class="nav-item2">
+            <h1><a href="./SectionCart.html"><i class="fa-solid fa-cart-shopping fa-1x"></i></a></h1>
+            <h1><a href="./login.html"><i class="fa-solid fa-right-from-bracket fa-1x"></i></a></h1>
+            <div class="UserId">
+                <div id="userName" class="user-avatar"></div>
+                <p class="user-label">Account</p>
+            </div>
+        </ul>
+    </nav>
+    <div class="sidebar-overlay"></div>
+    <aside class="mobile-sidebar" aria-hidden="true">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="sidebar-close" type="button" aria-label="Close sidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="sidebar-user-block">
+            <div id="sidebarUserInitial" class="sidebar-avatar">G</div>
+            <div>
+                <p class="sidebar-user-title">Account</p>
+                <p id="sidebarUserName" class="sidebar-user-name">Account</p>
+            </div>
+        </div>
+        <a class="sidebar-link" href="./WomanProduct.html">Woman</a>
+        <a class="sidebar-link" href="./Men.html">Man</a>
+        <a class="sidebar-link" href="#">Mobile</a>
+        <a class="sidebar-link" href="#">Baby</a>
+        <div class="sidebar-actions">
+            <a class="sidebar-action" href="./SectionCart.html" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a class="sidebar-action" href="./login.html" aria-label="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+        <a class="sidebar-logout" href="./login.html">Logout</a>
+    </aside>
+    <h2 class="cart-page-title">My Cart</h2>
+    <div class="cart-shell">
+        <div id="container"></div>
+        <!-- This id for addtocart -->
+        <aside class="conatiner1">
+            <h3 class="summary-title">Order Summary</h3>
+            <div class="summary-lines">
+                <div class="summary-row">
+                    <span>Items</span>
+                    <strong id="itemNoValue">0</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong id="subtotalValue">₹0</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery</span>
+                    <strong id="deliveryValue">₹0</strong>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <strong id="totalValue">₹0</strong>
+                </div>
+            </div>
+            <button id="btn" class="container">BUY NOW</button>
+        </aside>
+    </div>
+
+    
+    
+</body>
+</html>
+
+
+<script>
+var nav = document.querySelector(".navbar");
+var navToggle = document.querySelector(".nav-toggle");
+var sidebar = document.querySelector(".mobile-sidebar");
+var sidebarOverlay = document.querySelector(".sidebar-overlay");
+var sidebarClose = document.querySelector(".sidebar-close");
+function closeSidebar() {
+    if (!sidebar || !sidebarOverlay || !navToggle) return;
+    document.body.classList.remove("sidebar-open");
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("show");
+    sidebar.setAttribute("aria-hidden", "true");
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+}
+if (nav && navToggle) {
+    navToggle.addEventListener("click", function () {
+        var isOpen = sidebar.classList.toggle("open");
+        document.body.classList.toggle("sidebar-open", isOpen);
+        sidebarOverlay.classList.toggle("show", isOpen);
+        sidebar.setAttribute("aria-hidden", isOpen ? "false" : "true");
+        navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        navToggle.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+    });
+}
+if (sidebarClose) sidebarClose.addEventListener("click", closeSidebar);
+if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
+if (sidebar) {
+    sidebar.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", closeSidebar);
+    });
+}
+window.addEventListener("resize", function () {
+    if (window.innerWidth > 992) closeSidebar();
+});
+
+    // This for user Name
+var UserLogin = JSON.parse(localStorage.getItem("UserCred")) || JSON.parse(localStorage.getItem("userCred")) || [];
+var currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+var UserpPic = document.getElementById("userName");
+var displayName = (currentUser && currentUser.Name) || (UserLogin[0] && UserLogin[0].Name) || "";
+UserpPic.innerText = displayName ? displayName.trim().charAt(0).toUpperCase() : "";
+var sidebarUserInitial = document.getElementById("sidebarUserInitial");
+var sidebarUserName = document.getElementById("sidebarUserName");
+if (sidebarUserInitial) sidebarUserInitial.textContent = displayName ? displayName.trim().charAt(0).toUpperCase() : "G";
+if (sidebarUserName) sidebarUserName.textContent = "Account";
+
+var AddToCart = JSON.parse(localStorage.getItem("Cart")) || [];
+var cartContainer = document.querySelector("#container");
+var buybtn = document.querySelector("#btn");
+buybtn.addEventListener("click", buynow);
+
+function formatCurrency(value) {
+    return "₹" + Number(value).toLocaleString("en-IN");
+}
+
+function saveCart() {
+    localStorage.setItem("Cart", JSON.stringify(AddToCart));
+}
+
+function updateSummary() {
+    var total = AddToCart.reduce(function(sum, ele) {
+        return sum + Number(ele.price || 0);
+    }, 0);
+    var itemLength = AddToCart.length;
+    var delivery = 0;
+    var finalTotal = total + delivery;
+    document.querySelector("#itemNoValue").innerText = itemLength;
+    document.querySelector("#subtotalValue").innerText = formatCurrency(total);
+    document.querySelector("#deliveryValue").innerText = formatCurrency(delivery);
+    document.querySelector("#totalValue").innerText = formatCurrency(finalTotal);
+    buybtn.disabled = itemLength === 0;
+}
+
+function createCartItem(ele, index) {
+    var box = document.createElement("article");
+    box.className = "cart-item";
+
+    var img = document.createElement("img");
+    img.className = "cart-item-image";
+    img.src = ele.imageURL;
+    img.alt = ele.productName || "Cart product";
+
+    var details = document.createElement("div");
+    details.className = "cart-item-details";
+
+    var name = document.createElement("h4");
+    name.className = "cart-item-title";
+    name.innerText = ele.productName;
+
+    var priceRow = document.createElement("div");
+    priceRow.className = "cart-price-row";
+
+    var currentPrice = document.createElement("span");
+    currentPrice.className = "cart-current-price";
+    currentPrice.innerText = formatCurrency(ele.price);
+
+    var oldPrice = document.createElement("span");
+    oldPrice.className = "cart-old-price";
+    oldPrice.innerText = "MRP " + (ele.strikedPrice || "");
+
+    priceRow.append(currentPrice, oldPrice);
+    details.append(name, priceRow);
+
+    var removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "cart-remove-btn";
+    removeBtn.innerText = "Remove";
+    removeBtn.addEventListener("click", function() {
+        removeItem(index);
+    });
+
+    box.append(img, details, removeBtn);
+    return box;
+}
+
+function renderCart() {
+    cartContainer.innerHTML = "";
+    if (AddToCart.length === 0) {
+        var emptyState = document.createElement("p");
+        emptyState.className = "empty-cart";
+        emptyState.innerText = "Your cart is empty.";
+        cartContainer.append(emptyState);
+        updateSummary();
+        return;
+    }
+
+    AddToCart.forEach(function(item, index) {
+        cartContainer.append(createCartItem(item, index));
+    });
+    updateSummary();
+}
+
+function removeItem(index) {
+    var isSure = confirm("Do you want to remove this item?");
+    if (!isSure) return;
+    AddToCart.splice(index, 1);
+    saveCart();
+    renderCart();
+}
+
+  
+
+// this buynow producct
+function buynow(){
+    window.location.href="paymentgetway.html";
+
+}
+
+renderCart();
+
+</script>

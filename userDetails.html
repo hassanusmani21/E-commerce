@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/ed84ad128c.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<style>
+    .fa-user{
+        font-size: 30px;
+    }
+</style>
+<body>
+    <h1 class="userName"></h1>
+    
+</html>
+<script>
+var div = document.createElement("div");
+var UserLogin = JSON.parse(localStorage.getItem("UserCred")) || [];
+
+function Maping() {
+    // Map through the UserLogin array and create a div element for each user name
+    var userDivs = UserLogin.map((user) => {
+        var userData = document.createElement("div");
+        userData.innerText = user.Name;
+        div.append(UserImage,userData);
+        document.body.appendChild(div);
+    });
+
+}
+
+Maping();
+
+</script>
